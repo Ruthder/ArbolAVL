@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 
 public class Metodos {
-  
+    //2
     public static ArrayList<String> rotaciones = new ArrayList();
     
     public static Nodo insertarAVL(Nodo raiz, int dato) {
