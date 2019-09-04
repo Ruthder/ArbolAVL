@@ -22,7 +22,6 @@ public class Nodo {
         return derecho;
     }
 
-
     public void setDerecho(Nodo derecho) {
         this.derecho = derecho;
     }

@@ -1,8 +1,14 @@
 
 package avlui_ruthdercantillo;
 
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Metodos {
+  
+    public static ArrayList<String> rotaciones = new ArrayList();
     
     public static Nodo insertarAVL(Nodo raiz, int dato) {
         if (raiz == null) {
@@ -27,9 +33,7 @@ public class Metodos {
         if (factorBalance == 2 && Propiedades.factorBalance(raiz.getDerecho()) == -1) {
             return rotacionDobleDerecha(raiz);
         }
-
         return raiz;
-
     }
 
     public static Nodo buscarAVL(Nodo raiz, int dato) {
@@ -49,11 +53,11 @@ public class Metodos {
     public static Nodo rotacionSimpleIzquierda(Nodo raiz) {
         Nodo hijo = raiz.getIzquierdo();
         raiz.setIzquierdo(hijo.getDerecho());
-        hijo.setDerecho(raiz);
+        hijo.setDerecho(raiz);        
         return hijo;
     }
 
-    public static Nodo rotacionSimpleDerecha(Nodo raiz) {
+    public static Nodo rotacionSimpleDerecha(Nodo raiz) {        
         Nodo hijo = raiz.getDerecho();
         raiz.setDerecho(hijo.getIzquierdo());
         hijo.setIzquierdo(raiz);
@@ -120,5 +124,12 @@ public class Metodos {
         }
         return raiz;
     }
-
+    public static void rotaciones(String tipo){
+        try {
+            System.out.println(tipo);
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Metodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

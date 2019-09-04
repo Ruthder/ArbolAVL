@@ -3,21 +3,27 @@ package avlui_ruthdercantillo;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import javax.swing.JOptionPane;
 
 public class Ventana extends javax.swing.JFrame {
 
     Graphics g;
     AVLUI_RuthderCantillo avl;
-    int ejex;
-
+    int ejex;    
+    int diferenciaX=0;
+    int diferenciaY=0;
+    
     public Ventana(AVLUI_RuthderCantillo avl) {
         initComponents();
         this.avl = avl;
         informacion();
-        jPanel1.setPreferredSize(new Dimension(1920, 1080));
+        jLabel4.setText("");
+        jPanel1.setPreferredSize(new Dimension(3000, 1920));
         g = jPanel1.getGraphics();
         ejex = jPanel1.getWidth();
+        
     }
 
     public final void informacion() {
@@ -27,6 +33,51 @@ public class Ventana extends javax.swing.JFrame {
         jLabel6.setText("Nodos completos:   " + avl.completos(avl.Raiz));
     }
 
+    public boolean VerificarAumentoX(int dAct){
+        return dAct > diferenciaX;
+    }
+    
+    public boolean VerificarAumentoY(int dAct){
+        return dAct > diferenciaY;
+    }
+    
+    public void moverGraficar(Graphics g, Nodo p, int x, int y, String buscado, int lvl){
+        jScrollPane1.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                if (VerificarAumentoX(e.getValue())) {
+                    g.clearRect(0, 0, 3000, 1920);
+                    g.translate(diferenciaX-e.getValue(), 0);
+                    graficar1(g, p, x, y, buscado, 1);
+                    diferenciaX = e.getValue();
+                    
+                }else{
+                    g.clearRect(0, 0, 3000, 1920);
+                    g.translate(diferenciaX-e.getValue(), 0);
+                    graficar1(g, p, x, y, buscado, 1);
+                    diferenciaX = e.getValue();
+                }
+            }
+        });
+        
+        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent f) {
+                if(VerificarAumentoY(f.getValue())){
+                    g.clearRect(0, 0, 3000, 1920);
+                    g.translate(0, diferenciaY-f.getValue());
+                    graficar1(g, p, x, y, buscado, 1);
+                    diferenciaY = f.getValue();
+                }else{
+                    g.clearRect(0, 0, 3000, 1920);
+                    g.translate(0, diferenciaY-f.getValue());
+                    graficar1(g, p, x, y, buscado, 1);
+                    diferenciaY = f.getValue();
+                }
+            }
+        });
+    }
+    
     public void graficar1(Graphics g, Nodo p, int x, int y, String buscado, int lvl) {
         if (p != null) {
             g.setColor(java.awt.Color.black);
@@ -53,6 +104,7 @@ public class Ventana extends javax.swing.JFrame {
             } else {
                 g.drawString(String.valueOf(p.getDato()), x + 8 - lvl/2, y + 19 -lvl/4);
             }
+            
             graficar1(g, p.getIzquierdo(), (int) (x - (ejex / (Math.pow(2, lvl + 1)))), y + 50, buscado, lvl + 1);
             graficar1(g, p.getDerecho(), (int) (x + (ejex / (Math.pow(2, lvl + 1)))), y + 50, buscado, lvl + 1);
         }
@@ -63,7 +115,6 @@ public class Ventana extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
@@ -81,12 +132,15 @@ public class Ventana extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1366, 738));
-        setPreferredSize(new java.awt.Dimension(1366, 718));
+        setMinimumSize(new java.awt.Dimension(1366, 720));
+        setPreferredSize(new java.awt.Dimension(1366, 720));
         setResizable(false);
-        setSize(new java.awt.Dimension(1366, 718));
+        setSize(new java.awt.Dimension(1366, 720));
         getContentPane().setLayout(null);
 
         jButton1.setText("Insertar número de nodos");
@@ -96,25 +150,11 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(10, 630, 210, 30);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 611, Short.MAX_VALUE)
-        );
-
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 1366, 611);
+        jButton1.setBounds(20, 610, 210, 30);
 
         jLabel7.setText("Funciones");
         getContentPane().add(jLabel7);
-        jLabel7.setBounds(10, 610, 90, 20);
+        jLabel7.setBounds(20, 590, 90, 20);
 
         jButton3.setText("Preorden");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -123,7 +163,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
-        jButton3.setBounds(250, 630, 100, 30);
+        jButton3.setBounds(260, 610, 100, 30);
 
         jButton4.setText("Niveles");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -132,7 +172,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton4);
-        jButton4.setBounds(360, 670, 100, 30);
+        jButton4.setBounds(370, 650, 100, 30);
 
         jButton5.setText("Inorden");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +181,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton5);
-        jButton5.setBounds(360, 630, 100, 30);
+        jButton5.setBounds(370, 610, 100, 30);
 
         jButton6.setText("Postorden");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -150,11 +190,11 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton6);
-        jButton6.setBounds(250, 670, 100, 30);
+        jButton6.setBounds(260, 650, 100, 30);
 
         jLabel8.setText("Información");
         getContentPane().add(jLabel8);
-        jLabel8.setBounds(1090, 610, 260, 20);
+        jLabel8.setBounds(1100, 590, 260, 20);
 
         jButton2.setText("Buscar nodo");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -163,13 +203,13 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton2);
-        jButton2.setBounds(10, 670, 210, 30);
+        jButton2.setBounds(20, 650, 210, 30);
 
         jLabel9.setText("Recorridos");
         getContentPane().add(jLabel9);
-        jLabel9.setBounds(250, 610, 90, 20);
+        jLabel9.setBounds(260, 590, 90, 20);
         getContentPane().add(jTextField1);
-        jTextField1.setBounds(530, 630, 280, 70);
+        jTextField1.setBounds(540, 610, 280, 70);
 
         jButton7.setText("Eliminar");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +218,7 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton7);
-        jButton7.setBounds(820, 670, 100, 30);
+        jButton7.setBounds(830, 650, 100, 30);
 
         jButton8.setText("Insertar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -187,29 +227,57 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton8);
-        jButton8.setBounds(820, 630, 100, 30);
+        jButton8.setBounds(830, 610, 100, 30);
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(480, 700, 30, 20);
+        jLabel1.setBounds(490, 650, 30, 20);
 
         jLabel2.setText("info4");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(1090, 690, 260, 20);
+        jLabel2.setBounds(1100, 670, 260, 20);
 
         jLabel6.setText("info3");
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(1090, 670, 260, 20);
+        jLabel6.setBounds(1100, 650, 260, 20);
 
         jLabel5.setText("info2");
         getContentPane().add(jLabel5);
-        jLabel5.setBounds(1090, 650, 260, 20);
+        jLabel5.setBounds(1100, 630, 260, 20);
 
         jLabel3.setText("info1");
         getContentPane().add(jLabel3);
-        jLabel3.setBounds(1090, 630, 260, 20);
+        jLabel3.setBounds(1100, 610, 260, 20);
 
         jLabel10.setText("Operaciones");
         getContentPane().add(jLabel10);
-        jLabel10.setBounds(530, 610, 90, 20);
+        jLabel10.setBounds(540, 590, 90, 20);
+
+        jPanel1.setMaximumSize(new java.awt.Dimension(1365, 633));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1365, 633));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1365, 633));
+
+        jLabel4.setText("Tipo de rotación");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addContainerGap(1278, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addContainerGap(608, Short.MAX_VALUE))
+        );
+
+        jScrollPane1.setViewportView(jPanel1);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(0, 0, 1350, 590);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -227,8 +295,9 @@ public class Ventana extends javax.swing.JFrame {
             avl.Raiz = Metodos.insertarAVL(avl.Raiz, n);
         }
         jPanel1.removeAll();
-        g.clearRect(0, 0, 1370, 540);
-        graficar1(g, avl.Raiz, 673, 10, "b", 1);
+        g.clearRect(0, 0, 3000, 1920);
+        graficar1(g, avl.Raiz, 1500, 10, "b", 1);
+        moverGraficar(g, avl.Raiz, 1500, 10, "b", 1);
         informacion();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -280,8 +349,9 @@ public class Ventana extends javax.swing.JFrame {
             if (Metodos.buscarAVL(avl.Raiz, xd) != null) {
                 JOptionPane.showMessageDialog(null, "Nodo encontrado");
                 jPanel1.removeAll();
-        g.clearRect(0, 0, 1370, 540);
-        graficar1(g, avl.Raiz, 673, 10, String.valueOf(xd), 1);
+                g.clearRect(0, 0, 3000, 1920);
+                graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
+                moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
             } else {
                 JOptionPane.showMessageDialog(null, "Nodo no encontrado");
             }
@@ -295,8 +365,9 @@ public class Ventana extends javax.swing.JFrame {
         } else {
             avl.Raiz = Metodos.borrarAVL(avl.Raiz, Integer.parseInt(jTextField1.getText()));
             jPanel1.removeAll();
-            g.clearRect(0, 0, 1370, 540);
-            graficar1(g, avl.Raiz, 673, 10, "b", 1);
+            g.clearRect(0, 0, 3000, 1920);
+            graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
+            moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
         }
         jTextField1.setText("");
         informacion();
@@ -308,8 +379,9 @@ public class Ventana extends javax.swing.JFrame {
         } else {
             avl.Raiz = Metodos.insertarAVL(avl.Raiz, Integer.parseInt(jTextField1.getText()));
             jPanel1.removeAll();
-            g.clearRect(0, 0, 1370, 540);
-            graficar1(g, avl.Raiz, 673, 10, "b", 1);
+            g.clearRect(0, 0, 3000, 1920);
+            graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
+            moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
         }
         jTextField1.setText("");
         informacion();
@@ -328,12 +400,14 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
