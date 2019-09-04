@@ -4,10 +4,11 @@ package avlui_ruthdercantillo;
 public class AVLUI_RuthderCantillo {
     Nodo Raiz;
     String aux = "";
+    
     public AVLUI_RuthderCantillo() {
         Raiz = null;
     }
-    //
+
     public int altura(Nodo Nodo) {
         if (Nodo == null) {
             return -1;

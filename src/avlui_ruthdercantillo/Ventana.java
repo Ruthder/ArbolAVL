@@ -33,8 +33,6 @@ public class Ventana extends javax.swing.JFrame {
 
     public void graficar1(Graphics g, Nodo p, int x, int y, String buscado, int lvl) {
         if (p != null) {
-            
-            
             g.setColor(java.awt.Color.black);
             System.out.println("Info: " + p.getDato() + "; x = " + x + "; y = " + y);
             if (p.getDerecho() != null) {
@@ -55,9 +53,9 @@ public class Ventana extends javax.swing.JFrame {
             g.fillOval(x, y, 30 - lvl, 30 - lvl);
             g.setColor(java.awt.Color.white);
             if (String.valueOf(p.getDato()).length() == 1) {
-                g.drawString(String.valueOf(p.getDato()), x + 12, y + 19);
+                g.drawString(String.valueOf(p.getDato()), x + 12 - lvl/2, y + 19 - lvl/4);
             } else {
-                g.drawString(String.valueOf(p.getDato()), x + 8, y + 19);
+                g.drawString(String.valueOf(p.getDato()), x + 8 - lvl/2, y + 19 -lvl/4);
             }
             graficar1(g, p.getIzquierdo(), (int) (x - (ejex / (Math.pow(2, lvl + 1)))), y + 50, buscado, lvl + 1);
             graficar1(g, p.getDerecho(), (int) (x + (ejex / (Math.pow(2, lvl + 1)))), y + 50, buscado, lvl + 1);
@@ -223,7 +221,6 @@ public class Ventana extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         avl.Raiz = null;
         int n, xd;
-
         do {
             xd = Integer.parseInt(JOptionPane.showInputDialog("Ingresar número de nodos"));
         } while (xd <= 0);
@@ -321,7 +318,6 @@ public class Ventana extends javax.swing.JFrame {
         jTextField1.setText("");
         informacion();
     }//GEN-LAST:event_jButton8ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

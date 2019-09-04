@@ -118,7 +118,6 @@ public class Metodos {
         if (factorBalance == 2 && Propiedades.factorBalance(raiz.getDerecho()) == -1) {
             return rotacionDobleDerecha(raiz);
         }
-
         return raiz;
     }
 
