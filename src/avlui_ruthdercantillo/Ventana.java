@@ -27,9 +27,9 @@ public class Ventana extends javax.swing.JFrame {
     }
 
     public final void informacion() {
-        jLabel2.setText("Altura del arbol:       " + avl.altura(avl.Raiz));
-        jLabel3.setText("Tamaño del arbol:   " + avl.tamaño(avl.Raiz));
-        jLabel5.setText("Hojas del arbol:        " + avl.hojas(avl.Raiz));
+        jLabel2.setText("Altura del árbol:       " + avl.altura(avl.Raiz));
+        jLabel3.setText("Tamaño del árbol:   " + avl.tamaño(avl.Raiz));
+        jLabel5.setText("Hojas del árbol:        " + avl.hojas(avl.Raiz));
         jLabel6.setText("Nodos completos:   " + avl.completos(avl.Raiz));
     }
 
@@ -143,7 +143,7 @@ public class Ventana extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1366, 720));
         getContentPane().setLayout(null);
 
-        jButton1.setText("Insertar número de nodos");
+        jButton1.setText("Crear árbol");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -286,7 +286,7 @@ public class Ventana extends javax.swing.JFrame {
         avl.Raiz = null;
         int n, xd;
         do {
-            xd = Integer.parseInt(JOptionPane.showInputDialog("Ingresar número de nodos"));
+            xd = Integer.parseInt(JOptionPane.showInputDialog("Ingresar número de nodos:"));
         } while (xd <= 0);
         for (int i = 1; i <= xd; i++) {
             do {
@@ -303,7 +303,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (avl.Raiz == null) {
-            JOptionPane.showMessageDialog(null, "Arbol vacío");
+            JOptionPane.showMessageDialog(null, "Árbol vacío.");
         } else {
             Recorridos.preOrdenR(avl.Raiz);
             JOptionPane.showMessageDialog(null, "Secuencia(preOrden): " + Recorridos.aux);
@@ -313,7 +313,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if (avl.Raiz == null) {
-            JOptionPane.showMessageDialog(null, "Arbol vacío");
+            JOptionPane.showMessageDialog(null, "Árbol vacío.");
         } else {
             Recorridos.niveles(0, avl.Raiz);
             JOptionPane.showMessageDialog(null, "Secuencia(Niveles): " + Recorridos.aux);
@@ -323,7 +323,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         if (avl.Raiz == null) {
-            JOptionPane.showMessageDialog(null, "Arbol vacío");
+            JOptionPane.showMessageDialog(null, "Árbol vacío.");
         } else {
             Recorridos.inOrdenR(avl.Raiz);
             JOptionPane.showMessageDialog(null, "Secuencia(niveles): " + Recorridos.aux);
@@ -333,7 +333,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (avl.Raiz == null) {
-            JOptionPane.showMessageDialog(null, "Arbol vacío");
+            JOptionPane.showMessageDialog(null, "Árbol vacío.");
         } else {
             Recorridos.postOrdenR(avl.Raiz);
             JOptionPane.showMessageDialog(null, "Secuencia(postOrden): " + Recorridos.aux);
@@ -343,17 +343,17 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (avl.Raiz == null) {
-            JOptionPane.showMessageDialog(null, "Arbol vacío");
+            JOptionPane.showMessageDialog(null, "Árbol vacío.");
         } else {
             int xd = Integer.parseInt(JOptionPane.showInputDialog("Nodo a buscar: "));
             if (Metodos.buscarAVL(avl.Raiz, xd) != null) {
-                JOptionPane.showMessageDialog(null, "Nodo encontrado");
+                JOptionPane.showMessageDialog(null, "Nodo encontrado.");
                 jPanel1.removeAll();
                 g.clearRect(0, 0, 3000, 1920);
                 graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
                 moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
             } else {
-                JOptionPane.showMessageDialog(null, "Nodo no encontrado");
+                JOptionPane.showMessageDialog(null, "Nodo no encontrado.");
             }
         }
         
@@ -361,7 +361,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         if (jTextField1.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Campo vacío");
+            JOptionPane.showMessageDialog(rootPane, "Campo vacío.");
         } else {
             avl.Raiz = Metodos.borrarAVL(avl.Raiz, Integer.parseInt(jTextField1.getText()));
             jPanel1.removeAll();
@@ -375,7 +375,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         if (jTextField1.getText().equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Campo vacío");
+            JOptionPane.showMessageDialog(rootPane, "Campo vacío.");
         } else {
             avl.Raiz = Metodos.insertarAVL(avl.Raiz, Integer.parseInt(jTextField1.getText()));
             jPanel1.removeAll();
