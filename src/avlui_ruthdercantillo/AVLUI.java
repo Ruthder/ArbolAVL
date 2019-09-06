@@ -1,15 +1,14 @@
 
 package avlui_ruthdercantillo;
 
-public class AVLUI_RuthderCantillo {
+public class AVLUI {
     Nodo Raiz;
     String aux = "";
     
-    public AVLUI_RuthderCantillo() {
+    public AVLUI() {
         Raiz = null;
     }
-    //Hola mundo
-    //1
+    
     public int altura(Nodo Nodo) {
         if (Nodo == null) {
             return -1;
@@ -48,7 +47,7 @@ public class AVLUI_RuthderCantillo {
     }
     
     public static void main(String[] args) {
-        AVLUI_RuthderCantillo avl = new AVLUI_RuthderCantillo();
+        AVLUI avl = new AVLUI();
         Ventana v = new Ventana(avl);
         v.setVisible(true);
     }

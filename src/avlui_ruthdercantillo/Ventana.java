@@ -1,4 +1,3 @@
-
 package avlui_ruthdercantillo;
 
 import java.awt.Dimension;
@@ -10,20 +9,26 @@ import javax.swing.JOptionPane;
 public class Ventana extends javax.swing.JFrame {
 
     Graphics g;
-    AVLUI_RuthderCantillo avl;
-    int ejex;    
-    int diferenciaX=0;
-    int diferenciaY=0;
-    
-    public Ventana(AVLUI_RuthderCantillo avl) {
+    AVLUI avl;
+    int ejex, i = 1, xd, n;
+    int diferenciaX = 0;
+    int diferenciaY = 0;
+
+    public Ventana(AVLUI avl) {
         initComponents();
         this.avl = avl;
         informacion();
-        jLabel4.setText("");
-        jPanel1.setPreferredSize(new Dimension(3000, 1920));
+        jPanel1.setPreferredSize(new Dimension(3000, 500));
         g = jPanel1.getGraphics();
-        ejex = jPanel1.getWidth();
-        
+        ejex = 3000;
+        mostrar(false);
+    }
+
+    public void mostrar(boolean b) {
+        jLabel10.setVisible(b);
+        jButton7.setVisible(b);
+        jButton8.setVisible(b);
+        jTextField1.setVisible(b);
     }
 
     public final void informacion() {
@@ -33,80 +38,55 @@ public class Ventana extends javax.swing.JFrame {
         jLabel6.setText("Nodos completos:   " + avl.completos(avl.Raiz));
     }
 
-    public boolean VerificarAumentoX(int dAct){
+    public boolean VerificarAumentoX(int dAct) {
         return dAct > diferenciaX;
     }
-    
-    public boolean VerificarAumentoY(int dAct){
+
+    public boolean VerificarAumentoY(int dAct) {
         return dAct > diferenciaY;
     }
-    
-    public void moverGraficar(Graphics g, Nodo p, int x, int y, String buscado, int lvl){
+
+    public void moverGraficar(int x, int y, String buscado, int lvl) {
         jScrollPane1.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener() {
             @Override
             public void adjustmentValueChanged(AdjustmentEvent e) {
-                if (VerificarAumentoX(e.getValue())) {
-                    g.clearRect(0, 0, 3000, 1920);
-                    g.translate(diferenciaX-e.getValue(), 0);
-                    graficar1(g, p, x, y, buscado, 1);
-                    diferenciaX = e.getValue();
-                    
-                }else{
-                    g.clearRect(0, 0, 3000, 1920);
-                    g.translate(diferenciaX-e.getValue(), 0);
-                    graficar1(g, p, x, y, buscado, 1);
-                    diferenciaX = e.getValue();
-                }
-            }
-        });
-        
-        jScrollPane1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent f) {
-                if(VerificarAumentoY(f.getValue())){
-                    g.clearRect(0, 0, 3000, 1920);
-                    g.translate(0, diferenciaY-f.getValue());
-                    graficar1(g, p, x, y, buscado, 1);
-                    diferenciaY = f.getValue();
-                }else{
-                    g.clearRect(0, 0, 3000, 1920);
-                    g.translate(0, diferenciaY-f.getValue());
-                    graficar1(g, p, x, y, buscado, 1);
-                    diferenciaY = f.getValue();
-                }
+                System.out.println("buscado: " + String.valueOf(n));
+                g.clearRect(0, 0, 3000, 500);
+                g.translate(diferenciaX - e.getValue(), 0);
+                graficar1(avl.Raiz, x, y, String.valueOf(n), 1);
+                diferenciaX = e.getValue();
             }
         });
     }
-    
-    public void graficar1(Graphics g, Nodo p, int x, int y, String buscado, int lvl) {
+
+    public void graficar1(Nodo p, int x, int y, String buscado, int lvl) {
         if (p != null) {
             g.setColor(java.awt.Color.black);
-            System.out.println("Info: " + p.getDato() + "; x = " + x + "; y = " + y);
             if (p.getDerecho() != null) {
-                g.drawLine(x + 15, y + 15, (int) (x+15 + (ejex / (Math.pow(2, lvl + 1)))), y + 65);
+                g.drawLine(x + 15, y + 15, (int) (x + 8 + (ejex / (Math.pow(2, lvl + 1)))), y + 65);
             }
             if (p.getIzquierdo() != null) {
-                g.drawLine(x + 15, y + 15, (int) (x+15 - (ejex / (Math.pow(2, lvl + 1)))), y + 65);
+                g.drawLine(x + 15, y + 15, (int) (x + 8 - (ejex / (Math.pow(2, lvl + 1)))), y + 65);
             }
-            if("b".equals(buscado)){
+            if ("b".equals(String.valueOf(n))) {
                 g.setColor(java.awt.Color.BLACK);
-            }else{
-                if(Integer.parseInt(buscado)==p.getDato()){
+            } else {
+                if (Integer.parseInt(String.valueOf(n)) == p.getDato()) {
                     g.setColor(java.awt.Color.RED);
-                }else{
+                } else {
                     g.setColor(java.awt.Color.BLACK);
                 }
             }
             g.fillOval(x, y, 30 - lvl, 30 - lvl);
             g.setColor(java.awt.Color.white);
             if (String.valueOf(p.getDato()).length() == 1) {
-                g.drawString(String.valueOf(p.getDato()), x + 12 - lvl/2, y + 19 - lvl/4);
+                g.drawString(String.valueOf(p.getDato()), x + 12 - lvl / 2, y + 19 - lvl / 4);
             } else {
-                g.drawString(String.valueOf(p.getDato()), x + 8 - lvl/2, y + 19 -lvl/4);
+                g.drawString(String.valueOf(p.getDato()), x + 8 - lvl / 2, y + 19 - lvl / 4);
             }
-            
-            graficar1(g, p.getIzquierdo(), (int) (x - (ejex / (Math.pow(2, lvl + 1)))), y + 50, buscado, lvl + 1);
-            graficar1(g, p.getDerecho(), (int) (x + (ejex / (Math.pow(2, lvl + 1)))), y + 50, buscado, lvl + 1);
+
+            graficar1(p.getIzquierdo(), (int) (x - (ejex / (Math.pow(2, lvl + 1))) -7), y + 50, buscado, lvl + 1);
+            graficar1(p.getDerecho(), (int) (x + (ejex / (Math.pow(2, lvl + 1))) -7), y + 50, buscado, lvl + 1);
         }
     }
 
@@ -135,6 +115,8 @@ public class Ventana extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 720));
@@ -255,49 +237,60 @@ public class Ventana extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(1365, 633));
         jPanel1.setPreferredSize(new java.awt.Dimension(1365, 633));
 
-        jLabel4.setText("Tipo de rotación");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(1278, Short.MAX_VALUE))
+            .addGap(0, 1365, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addContainerGap(608, Short.MAX_VALUE))
+            .addGap(0, 633, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(jPanel1);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(0, 0, 1350, 590);
+        jScrollPane1.setBounds(0, 70, 1360, 520);
+
+        jLabel4.setText("Tipo de rotación:");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(10, 10, 380, 14);
+
+        jLabel12.setText("Elemento insertado:");
+        getContentPane().add(jLabel12);
+        jLabel12.setBounds(10, 30, 380, 14);
+
+        jButton9.setText("Avanzar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton9);
+        jButton9.setBounds(1180, 10, 170, 50);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        i = 1;
         avl.Raiz = null;
-        int n, xd;
         do {
             xd = Integer.parseInt(JOptionPane.showInputDialog("Ingresar número de nodos:"));
         } while (xd <= 0);
-        for (int i = 1; i <= xd; i++) {
-            do {
-                n = (int) (Math.random() * 100);
-            } while (Metodos.buscarAVL(avl.Raiz, n) != null);
-            avl.Raiz = Metodos.insertarAVL(avl.Raiz, n);
-        }
+        mostrar(true);
+        do {
+            n = (int) (Math.random() * 100);
+        } while (Metodos.buscarAVL(avl.Raiz, n) != null);
+        avl.Raiz = Metodos.insertarAVL(avl.Raiz, n);
         jPanel1.removeAll();
-        g.clearRect(0, 0, 3000, 1920);
-        graficar1(g, avl.Raiz, 1500, 10, "b", 1);
-        moverGraficar(g, avl.Raiz, 1500, 10, "b", 1);
+        g.clearRect(0, 0, 3000, 500);
+        diferenciaX = 0;
+        diferenciaY = 0;
+        graficar1(avl.Raiz, 1500, 10, String.valueOf(n), 1);
+        moverGraficar(1500, 10, String.valueOf(n), 1);
+        i++;
         informacion();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -349,14 +342,17 @@ public class Ventana extends javax.swing.JFrame {
             if (Metodos.buscarAVL(avl.Raiz, xd) != null) {
                 JOptionPane.showMessageDialog(null, "Nodo encontrado.");
                 jPanel1.removeAll();
-                g.clearRect(0, 0, 3000, 1920);
-                graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
-                moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
+                g.clearRect(0, 0, 3000, 500);
+                diferenciaX = 0;
+                diferenciaY = 0;
+                Metodos.q = 1;
+                graficar1(avl.Raiz, 1500, 10, "b", 1);
+                moverGraficar(1500, 10, "b", 1);
+                Metodos.q = 0;
             } else {
                 JOptionPane.showMessageDialog(null, "Nodo no encontrado.");
             }
         }
-        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -365,12 +361,17 @@ public class Ventana extends javax.swing.JFrame {
         } else {
             avl.Raiz = Metodos.borrarAVL(avl.Raiz, Integer.parseInt(jTextField1.getText()));
             jPanel1.removeAll();
-            g.clearRect(0, 0, 3000, 1920);
-            graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
-            moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
+            g.clearRect(0, 0, 3000, 500);
+            diferenciaX = 0;
+            diferenciaY = 0;
+            graficar1(avl.Raiz, 1500, 10, "b", 1);
+            moverGraficar(1500, 10, "b", 1);
+
         }
         jTextField1.setText("");
         informacion();
+        Metodos.q = 0;
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -379,13 +380,32 @@ public class Ventana extends javax.swing.JFrame {
         } else {
             avl.Raiz = Metodos.insertarAVL(avl.Raiz, Integer.parseInt(jTextField1.getText()));
             jPanel1.removeAll();
-            g.clearRect(0, 0, 3000, 1920);
-            graficar1(g, avl.Raiz, jPanel1.getX()/2, 10, "b", 1);
-            moverGraficar(g, avl.Raiz, jPanel1.getX(), 10, "b", 1);
+            g.clearRect(0, 0, 3000, 500);
+            diferenciaX = 0;
+            diferenciaY = 0;
+            graficar1(avl.Raiz, 1500, 10, "b", 1);
+            moverGraficar(1500, 10, "b", 1);
         }
         jTextField1.setText("");
         informacion();
+        Metodos.q = 0;
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        if (i <= xd) {
+            do {
+                n = (int) (Math.random() * 100);
+            } while (Metodos.buscarAVL(avl.Raiz, n) != null);
+            avl.Raiz = Metodos.insertarAVL(avl.Raiz, n);
+            jPanel1.removeAll();
+            g.clearRect(0, 0, 3000, 500);
+            graficar1(avl.Raiz, 1500, 10, String.valueOf(n), 1);
+            //moverGraficar(1500, 10, String.valueOf(n), 1);
+            i++;
+            informacion();
+            Metodos.q = 0;
+        }
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -396,11 +416,13 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    public static javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    public static javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
