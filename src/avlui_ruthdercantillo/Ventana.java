@@ -3,10 +3,9 @@ package avlui_ruthdercantillo;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import javax.swing.JOptionPane;
 
-public class Ventana extends javax.swing.JFrame {
+public final class Ventana extends javax.swing.JFrame {
 
     Graphics g;
     AVLUI avl;
@@ -47,15 +46,12 @@ public class Ventana extends javax.swing.JFrame {
     }
 
     public void moverGraficar(int x, int y, String buscado, int lvl) {
-        jScrollPane1.getHorizontalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                System.out.println("buscado: " + String.valueOf(n));
-                g.clearRect(0, 0, 3000, 500);
-                g.translate(diferenciaX - e.getValue(), 0);
-                graficar1(avl.Raiz, x, y, String.valueOf(n), 1);
-                diferenciaX = e.getValue();
-            }
+        jScrollPane1.getHorizontalScrollBar().addAdjustmentListener((AdjustmentEvent e) -> {
+            System.out.println("buscado: " + String.valueOf(n));
+            g.clearRect(0, 0, 3000, 500);
+            g.translate(diferenciaX - e.getValue(), 0);
+            graficar1(avl.Raiz, x, y, String.valueOf(n), 1);
+            diferenciaX = e.getValue();
         });
     }
 
@@ -63,10 +59,10 @@ public class Ventana extends javax.swing.JFrame {
         if (p != null) {
             g.setColor(java.awt.Color.black);
             if (p.getDerecho() != null) {
-                g.drawLine(x + 15, y + 15, (int) (x + 8 + (ejex / (Math.pow(2, lvl + 1)))), y + 65);
+                g.drawLine(x + 15, y + 15, (int) (x + 15 + (ejex / (Math.pow(2, lvl + 1)))), y + 65);
             }
             if (p.getIzquierdo() != null) {
-                g.drawLine(x + 15, y + 15, (int) (x + 8 - (ejex / (Math.pow(2, lvl + 1)))), y + 65);
+                g.drawLine(x + 15, y + 15, (int) (x + 15 - (ejex / (Math.pow(2, lvl + 1)))), y + 65);
             }
             if ("b".equals(String.valueOf(n))) {
                 g.setColor(java.awt.Color.BLACK);
@@ -85,8 +81,8 @@ public class Ventana extends javax.swing.JFrame {
                 g.drawString(String.valueOf(p.getDato()), x + 8 - lvl / 2, y + 19 - lvl / 4);
             }
 
-            graficar1(p.getIzquierdo(), (int) (x - (ejex / (Math.pow(2, lvl + 1))) -7), y + 50, buscado, lvl + 1);
-            graficar1(p.getDerecho(), (int) (x + (ejex / (Math.pow(2, lvl + 1))) -7), y + 50, buscado, lvl + 1);
+            graficar1(p.getIzquierdo(), (int) (x - (ejex / (Math.pow(2, lvl + 1))) ), y + 50, buscado, lvl + 1);
+            graficar1(p.getDerecho(), (int) (x + (ejex / (Math.pow(2, lvl + 1))) ), y + 50, buscado, lvl + 1);
         }
     }
 
@@ -338,7 +334,7 @@ public class Ventana extends javax.swing.JFrame {
         if (avl.Raiz == null) {
             JOptionPane.showMessageDialog(null, "Árbol vacío.");
         } else {
-            int xd = Integer.parseInt(JOptionPane.showInputDialog("Nodo a buscar: "));
+            xd = Integer.parseInt(JOptionPane.showInputDialog("Nodo a buscar: "));
             if (Metodos.buscarAVL(avl.Raiz, xd) != null) {
                 JOptionPane.showMessageDialog(null, "Nodo encontrado.");
                 jPanel1.removeAll();
@@ -383,8 +379,8 @@ public class Ventana extends javax.swing.JFrame {
             g.clearRect(0, 0, 3000, 500);
             diferenciaX = 0;
             diferenciaY = 0;
-            graficar1(avl.Raiz, 1500, 10, "b", 1);
-            moverGraficar(1500, 10, "b", 1);
+            graficar1(avl.Raiz, 1500, 10, jTextField1.getText(), 1);
+            moverGraficar(1500, 10, jTextField1.getText(), 1);
         }
         jTextField1.setText("");
         informacion();
